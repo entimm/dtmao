@@ -1,0 +1,63 @@
+<include file="Public/header" />
+
+<div class="container">
+<notempty name="order">
+  <div class="panel panel-primary" id="order{$order.id}">
+      <div class="panel-heading"><strong class="panel-title">{$order.type}</strong></div>
+      <div class="panel-body row">
+
+          <div class="col-sm-4">
+              <div class="panel panel-info">
+                <div class="panel-heading">订单信息</div>
+                <div class="panel-body">
+                  <p>订单号：{$order.number}</p>
+                  <notempty name="vo.detail">
+                      <foreach name="vo.detail" item="v" key="k">
+                          <p>{$fieldInfo[$k]}：{$v}</p>
+                      </foreach>
+                  </notempty>
+                  <p>发起时间：{$order.ctime|date="y-m-d H:i:s",###}</p>
+                  <p>备注：{$order.note}</p>
+                </div>
+              </div>
+          </div>
+
+          <div class="col-sm-4">
+              <div class="panel panel-info">
+                <div class="panel-heading">客户信息</div>
+                <div class="panel-body">
+                  <p>姓名：{$order.name}</p>
+                  <p>学校：{$order.school}</p>
+                  <p>联系方式：{$order.phone}</p>
+                  <p>地址：{$order.addr}</p>
+                </div>
+              </div>
+          </div>
+
+          <div class="col-sm-4">
+              <div class="panel panel-info">
+                <if condition="$order.status eq 1">
+                <div class="panel-heading">受理信息</div>
+                <div class="panel-body">
+                  <p>配送员：{$order.dealwith.svname}</p>
+                  <p>配送联系电话：{$order.dealwith.svcontact}</p>
+                  <p>受理时间：{$order.mtime|date="y-m-d H:i:s",###}</p>
+                </div>
+                <elseif condition="$order.status eq 2"/>
+                <div class="panel-heading">拒绝信息</div>
+                <div class="panel-body">
+                  <p>原因：{$order.dealwith.reason}</p>
+                  <p>拒绝时间：{$order.mtime|date="y-m-d H:i:s",###}</p>
+                </div>
+                </if>
+              </div>
+          </div>
+
+      </div>
+
+  </div>
+</notempty>
+
+</div>
+
+<include file="Public/footer" />

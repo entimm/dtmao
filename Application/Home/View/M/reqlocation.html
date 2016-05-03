@@ -1,0 +1,54 @@
+<include file="Public/header" />
+    <div class="container">
+        <div class="page-header">
+            <h1>消息</h1>
+        </div>
+
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">{$msg['title']}</h3>
+          </div>
+          <div class="panel-body">
+            <h4>{$msg['content']}</h4>
+          </div>
+        </div>
+
+        <div class="alert alert-danger" role="alert" style="display: none;" id="alert"></div>
+    </div>
+
+<include file="Public/footer" />
+
+<script>
+    <present name="useWXJSK">
+    wx.ready(function () {
+        wx.getLocation({
+            success: function (res) {
+                var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                // alert(latitude + ',' + longitude);return;
+                $.post("{:U('M/setlocation')}", {latitude:latitude,longitude:longitude}, success, "json");
+
+                function success(data){
+                    if(data.status){
+                        // $('#alert').html(window.location.href).show();
+                        // $('#alert').html(data.info).show();
+                        window.location.reload();
+                    } else {
+                        $('#alert').html('获取您的位置失败').show();
+                    }
+                }
+
+            },
+            fail: function(res) {
+                $('#alert').html('获取您的位置失败').show();
+            },
+            complete: function(res) {
+            },
+            cancel: function(res) {
+                $('#alert').html('获取您的位置失败').show();
+            }
+        });
+    });
+
+    </present>
+</script>

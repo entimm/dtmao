@@ -1,0 +1,21 @@
+<include file="Public/header_auth" />
+    <div class="container">
+        <div class="pull-right">
+            <a class="btn btn-primary btn-lg" href="{:U('Tools/addschool')}" role="button">添加学校</a>
+        </div>
+        <table class="table table-striped">
+          <thead>
+              <tr><td>#</td><td>学校</td><td>市</td><td>区</td><td>省</td><td>具体地址</td><td>操作</td></tr>
+          </thead>
+          <tbody>
+          <volist name="schools" id="vo">
+              <tr>
+                <td>{$key + 1}</td><td>{$vo.school}</td><td>{$vo.city}</td><td>{$vo.district}</td><td>{$vo.province}</td><td>{$vo.addrinfo}</td>
+                <td><a href="{:U('Tools/delschool/id/'. $vo['id'])}"><img src="__PUBLIC__/img/del.png" alt="删除"></a></td>
+              </tr>
+          </volist>
+          </tbody>
+        </table>
+    </div>
+
+<include file="Public/footer" />

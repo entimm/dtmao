@@ -1,0 +1,29 @@
+<include file="Public/header" />
+    <div class="container">
+        <div class="page-header">
+            <h1>{$title}</h1>
+        </div>
+        <form method="post" style="margin-bottom: 20px">
+            <div class="form-group">
+                <label for="content" class=".sr-only"></label>
+                <textarea name="content" id="content" class="form-control" rows="4" placeholder="这里填写具体内容"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit">提交</button>
+        </form>
+    </div>
+
+<include file="Public/footer" />
+
+    <script type="text/javascript">
+    $('#submit').click(function() {
+        if ($('#content').val() == "") {
+            $('<div class="alert alert-danger" role="alert"><strong>请填写建议内容！</strong></div>').insertAfter("form").fadeOut(3000);
+            return false;
+        }
+    });
+    <present name="useWXJSK">
+    wx.ready(function () {
+        wx.closeWindow();
+    });
+    </present>
+    </script>

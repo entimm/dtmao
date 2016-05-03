@@ -1,0 +1,61 @@
+<include file="Public/header_auth" />
+
+    <div class="container">
+        <form class="form-inline" action="{:U('Courier/add')}">
+          <div class="form-group">
+            <label for="username">姓名</label>
+            <input type="text" class="form-control" id="username" placeholder="配送员姓名" name="username">
+          </div>
+          <div class="form-group">
+            <label for="mobile">手机号码</label>
+            <input type="text" class="form-control" id="mobile" placeholder="配送员手机号码" name="mobile">
+          </div>
+          <button type="submit" class="btn btn-default">添加配送员</button>
+        </form>
+        <div class="alert alert-danger" role="alert" style="display: none;" id="alert"></div>
+
+        <ul class="list-group" style="margin-top: 20px">
+        <volist name="couriers" id="vo">
+            <li class="list-group-item text-left">
+                <a role="button" class="btn btn-danger" href="{:U('Courier/del/id/'.$vo[id])}" style="margin-right: 10px">删除</a>
+                {$vo.username} {$vo.mobile}
+            </li>
+        </volist>
+        </ul>
+    </div>
+
+<include file="Public/footer" />
+
+<script>
+$(function(){
+    $( document ).ajaxStart(function(){
+        $("button:submit").attr("disabled", true);
+    })
+    $( document ).ajaxStop(function(){
+        $("button:submit").attr("disabled", false);
+    });
+
+    $('form').submit(function(){
+        var username = $('#username').val();
+        var mobile = $('#mobile').val();
+        if(username == "") {
+            $('#alert').html('请填写配送员姓名').show().fadeOut(2000);
+            return false;
+        } else if(mobile == "") {
+            $('#alert').html('请填写配送员手机号码').show().fadeOut(2000);
+            return false;
+        }
+        var self = $(this);
+        $.post(self.attr("action"), self.serialize(), success, "json");
+        return false;
+
+        function success(data){
+            if(data.status){
+                window.location.reload();
+            } else {
+                $('#alert').html(data.info).show().fadeOut(2000);
+            }
+        }
+    });
+});
+</script>

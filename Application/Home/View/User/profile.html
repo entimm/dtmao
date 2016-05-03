@@ -1,0 +1,86 @@
+<include file="Public/header_auth" />
+
+<style>
+body {
+    background: #12355F url(http://dtmao.sinaapp.com/Public/img/bg-pattern.png?v=__VERSION__);
+}
+
+.loginBox {
+    padding: 0 20px 20px 20px;
+    border: 1px solid #fff;
+    color: #000;
+    margin-top: 120px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px #222;
+    background: #fff;
+    background: -moz-linear-gradient(top, #fff, #efefef 8%);
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f4f4f4));
+}
+
+.loginBox h2 {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 10px;
+}
+</style>
+<div class="container">
+<div class="row">
+    <div class="loginBox col-sm-offset-3 col-sm-6">
+        <form action="{:U('User/profile')}">
+            <h2>修改密码</h2>
+            <div class="form-group">
+                <label for="oldpwd">原密码</label>
+                <input type="password" name="oldpwd" id="oldpwd" placeholder="原密码" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="newpwd">新密码</label>
+                <input type="password" name="newpwd" id="newpwd" placeholder="新密码" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="renewpwd">再输一次新密码</label>
+                <input type="password" name="renewpwd" id="renewpwd" placeholder="再输一次新密码" class="form-control"/>
+            </div>
+            <div class="alert alert-danger" role="alert" style="display: none;" id="alert"></div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">提交</button>
+        </form>
+    </div>
+</div>
+</div>
+<include file="Public/footer" />
+
+<script>
+$(function(){
+    $( document ).ajaxStart(function(){
+        $("button:submit").attr("disabled", true);
+    })
+    $( document ).ajaxStop(function(){
+        $("button:submit").attr("disabled", false);
+    });
+
+    $('form').submit(function(){
+        var oldpwd = $('#oldpwd').val();
+        var newpwd = $('#newpwd').val();
+        var renewpwd = $('#renewpwd').val();
+        if(oldpwd == "") {
+            $('#alert').html('请填写你的原密码').show().fadeOut(2000);
+            return false;
+        } else if(newpwd == "") {
+            $('#alert').html('请填写你的新密码').show().fadeOut(2000);
+            return false;
+        } else if(renewpwd == "") {
+            $('#alert').html('请再次填写你的新密码').show().fadeOut(2000);
+            return false;
+        }
+        var self = $(this);
+        $.post(self.attr("action"), self.serialize(), success, "json");
+        return false;
+
+        function success(data){
+            if(data.status){
+                window.location.href = data.url;
+            } else {
+                $('#alert').html(data.info).show().fadeOut(2000);
+            }
+        }
+    });
+});
+</script>

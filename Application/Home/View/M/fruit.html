@@ -1,0 +1,122 @@
+<include file="Public/header" />
+    <div class="container">
+        <div class="page-header">
+            <h1>{$title}</h1>
+        </div>
+        <div class="alert alert-info" role="alert">
+            <p>费用视具体情况而定</p>
+        </div>
+
+        <div class="alert alert-danger" role="alert" style="display: none;" id="alerterr"></div>
+
+        <button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#addModal">我还要</button>
+
+        <div class="panel panel-info" style="margin-top: 20px;">
+          <div class="panel-heading">
+            <h3 class="panel-title">购物车列表</h3>
+          </div>
+          <div class="panel-body">
+            <table class="table table-striped" id="data"></table>
+          </div>
+        </div>
+
+        <form method="post" style="margin-bottom: 20px" id="submitform" action="__ACTION__">
+            <div class="form-group">
+                <label for="note" class=".sr-only">备注</label>
+                <textarea name="note" id="note" class="form-control" rows="4" placeholder="如果有其他说明，请写在这里哦"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit">提交</button>
+        </form>
+    </div>
+
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="addModal">添加水果</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" role="alert" style="display: none;"></div>
+                    <form id="itemform">
+                        <div class="form-group">
+                            <label for="type" class="control-label">种类:</label>
+                            <select name="detail[type]" class="form-control" id="type">
+                                <option value="">请选择</option>
+                                <option value="苹果">苹果</option>
+                                <option value="香蕉">香蕉</option>
+                                <option value="葡萄">葡萄</option>
+                                <option value="西瓜">西瓜</option>
+                                <option value="菠萝">菠萝</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                           <label for="weight">重量</label>
+                            <div class="input-group">
+                                <input name="detail[weight]" type="number" class="form-control" id="weight" placeholder="大概要多少">
+                                <span class="input-group-addon">斤</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dealwith-text="处理中..." autocomplete="off">加入购物车</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<include file="Public/footer" />
+
+<script>
+$(function(){
+    var list = [];
+    $('#addModal').modal({
+        show: true
+    });
+
+    var addModal = $('#addModal');
+    addModal.find('.btn-primary').on('click', function(){
+      var type = $('#type').val();
+      if(type == "") {
+        addModal.find('.alert').html('请选择种类').show().fadeOut(2000);
+        return;
+      }
+      var weight = $('#weight').val();
+      if(weight == "") {
+        addModal.find('.alert').html('请填写重量').show().fadeOut(2000);
+        return;
+      }
+
+      $(this).button('dealwith');
+      var item = [];
+      item['type'] = type;
+      item['weight'] = weight;
+      list.push(item);
+      addModal.modal('hide');
+
+      $('#data').append('<tr><td>'+type+'</td><td>'+weight+'斤</td></tr>');
+
+      $(this).button('reset');
+    });
+
+    addModal.on('hidden.bs.modal', function (e) {
+      document.getElementById("itemform").reset();
+    })
+
+    $('#submitform').submit(function(){
+        var note = $('#note').val();
+        if(list.length == 0) {
+            $('#alerterr').html('请添加商品到购物车中').show().fadeOut(3000);
+            return false;
+        }
+        //alert(list[key][type]);
+        for( var key in list) {
+            $(this).append('<input type="hidden" name="detail[' + key +'][type]" value="' + list[key]['type'] +'"/><input type="hidden" name="detail[' + key +'][weight]" value="' + list[key]['weight'] +'"/>');
+        }
+        return true;
+    });
+});
+</script>

@@ -1,0 +1,98 @@
+<include file="Public/header" />
+    <div class="container">
+        <div class="page-header">
+            <h1>{$title}</h1>
+        </div>
+        <div class="alert alert-info" role="alert">
+            <p>费用将根据您选择的快递公司、目的地以及快件重量而定</p>
+        </div>
+        <form method="post" style="margin-bottom: 20px">
+            <div class="form-group">
+                <label for="revname">收件人</label>
+                <input name="detail[revname]" type="text" class="form-control" id="revname" placeholder="收件人姓名">
+            </div>
+            <div class="form-group">
+                <label for="destination">目的地</label>
+                <div id="addrselect" class="btn-group btn-group-justified" role="group">
+                    <div class="btn-group" role="group">
+                        <select name="detail[destcity][prov]" class="prov btn btn-default" role="button"></select>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <select name="detail[destcity][city]" class="city btn btn-default" role="button" disabled="disabled"></select>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <select name="detail[destcity][dist]" class="dist btn btn-default" role="button" disabled="disabled"></select>
+                    </div>
+                </div>
+                <input name="detail[destination]" type="text" class="form-control" id="destination" placeholder="收件人详细地址">
+            </div>
+            <div class="form-group">
+                <label for="weight">重量</label>
+                <div class="input-group">
+                    <input name="detail[weight]" type="number" class="form-control" id="weight" placeholder="大概多重">
+                    <span class="input-group-addon">斤</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="provider">快递公司</label>
+                <select name="detail[provider]" class="form-control" id="provider">
+                    <option value="">请选择</option>
+                    <option value="韵达快运">韵达快运</option>
+                    <option value="申通快递">申通快递</option>
+                    <option value="圆通速递">圆通速递</option>
+                    <option value="中通快递">中通快递</option>
+                    <option value="顺通速递">顺通速递</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="note">备注</label>
+                <textarea name="note" id="note" class="form-control" rows="4" placeholder="如果有其他说明，请写在这里哦"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit">提交</button>
+        </form>
+        <div class="alert alert-danger" role="alert" style="display: none;" id="alert"></div>
+    </div>
+
+<include file="Public/footer" />
+
+<script type="text/javascript" src="__PUBLIC__/js/jquery.cityselect.js"></script>
+<script type="text/javascript">
+$("#addrselect").citySelect({
+    required:false,
+    nodata:"none"
+});
+
+$('#submit').click(function() {
+    if ($('#revname').val() == "") {
+        $('#alert').html('请填写收件人姓名！').show().fadeOut(2000);
+        return false;
+    }
+
+    var addrempty = false;
+    $('#addrselect select:enabled').each(function(){
+        if($(this).val() == "") {
+            $('#alert').html('请把省市信息填写完整！').show().fadeOut(2000);
+            addrempty = true;
+            return false;
+        }
+    });
+    if(addrempty) return false;
+
+
+    if ($('#destination').val() == "") {
+        $('#alert').html('请填写收件人详细地址！').show().fadeOut(2000);
+        return false;
+    }
+
+    if ($('#weight').val() == "") {
+        $('#alert').html('请填写快件重量！').show().fadeOut(2000);
+        return false;
+    }
+
+    if ($('#provider').val() == "") {
+        $('#alert').html('请选择快递服务商！').show().fadeOut(2000);
+        return false;
+    }
+
+});
+</script>

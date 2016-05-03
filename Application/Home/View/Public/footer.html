@@ -1,0 +1,17 @@
+    <script type="text/javascript" src="__PUBLIC__/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/bootstrap/js/bootstrap.min.js"></script>
+    <present name="useWXJSK">
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        <script>
+            wx.config({
+              // debug: true,
+              appId: '{$signPackage["appId"]}',
+              timestamp: {$signPackage["timestamp"]},
+              nonceStr: '{$signPackage["nonceStr"]}',
+              signature: '{$signPackage["signature"]}',
+              jsApiList: [{$jsApiList}]
+            });
+        </script>
+    </present>
+    </body>
+</html>

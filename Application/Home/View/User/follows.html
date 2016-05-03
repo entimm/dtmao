@@ -1,0 +1,32 @@
+<include file="Public/header_auth" />
+
+    <div class="container">
+
+    <volist name="follows" id="vo" mod="3">
+        <eq name="mod" value="0">
+          <div class="row">
+        </eq>
+        <div class="col-md-4" style="float: left;margin-top: 15px">
+          <div class="media">
+            <div class="media-left">
+              <a href="{$vo.headimgurl}">
+                <img class="media-object" src="{$vo.headimgurl}" alt="微信头像" style="width: 72px; height: 72px;">
+              </a>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading"> {$vo.nickname} </h4>
+              <h5>{$vo['sex']==1?'男':'女'} {$vo.province} {$vo.city}</h5>
+              <small>关注时间：{$vo.subscribe_time|date="y-m-d H:i:s",###}</small>
+            </div>
+          </div>
+        </div>
+        <if condition="($mod eq 2) OR ($key eq $count - 1)">
+          </div>
+        </if>
+    </volist>
+
+    <div class="text-center"><nav>{$page}</nav>共 {$count} 名关注者</div>
+
+    </div>
+
+<include file="Public/footer" />

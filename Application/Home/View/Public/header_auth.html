@@ -1,0 +1,33 @@
+<include file="Public/header" />
+
+<header class="navbar navbar-static-top" id="top" role="banner">
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">订单管理</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li <eq name="Think.get.s" value="0">class="active"</eq>><a href="{:U('Order/index?s=0')}">待处理订单</a></li>
+                    <li <eq name="Think.get.s" value="1">class="active"</eq>><a href="{:U('Order/index?s=1')}">已受理订单</a></li>
+                    <li <eq name="Think.get.s" value="2">class="active"</eq>><a href="{:U('Order/index?s=2')}">已拒绝订单</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <notempty name="Think.session.user_auth.isadmin">
+                    <li <eq name="Think.get.s" value="5">class="active"</eq>><a href="{:U('User/follows?s=5')}">我的用户</a></li>
+                    <li <eq name="Think.get.s" value="6">class="active"</eq>><a href="{:U('Tools/listschool?s=6')}">学校管理</a></li>
+                    </notempty>
+                    <li <eq name="Think.get.s" value="3">class="active"</eq>><a href="{:U('Courier/index?s=3')}">配送员管理</a></li>
+                    <li <eq name="Think.get.s" value="4">class="active"</eq>><a href="{:U('User/profile?s=4')}">修改密码</a></li>
+                    <li><a class="navbar-right navbar-link" href="{:U('User/logout')}">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

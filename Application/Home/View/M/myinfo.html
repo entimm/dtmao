@@ -1,0 +1,58 @@
+<include file="Public/header" />
+    <div class="container">
+        <div class="page-header">
+            <h1>{$title}</h1>
+        </div>
+        <form method="post" style="margin-bottom: 20px">
+            <div class="form-group">
+                <label for="school">学校</label>
+                <select name="schoolid" class="form-control" id="school">
+                <volist name="schools" id="vo">
+                  <option value ="{$key}" <eq name="info['schoolid']" value="{$key}">selected</eq>>{$vo}</option>
+                </volist>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="name">姓名</label>
+                <input name="name" type="text" class="form-control" id="name" placeholder="收寄件所填写的姓名" value="{$info['name']}">
+            </div>
+            <div class="form-group">
+                <label for="phone">手机或电话号码</label>
+                <input name="phone" type="text" class="form-control" id="phone" placeholder="收寄件所填写的手机或电话号码" value="{$info['phone']}">
+            </div>
+            <div class="form-group">
+                <label for="addr">详细地址</label>
+                <input name="addr" type="text" class="form-control" id="addr" placeholder="所在宿舍" value="{$info['addr']}">
+            </div>
+            <input name="id" type="hidden" class="form-control" id="id" value="{$info['id']}">
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit">提交</button>
+        </form>
+    </div>
+
+<include file="Public/footer" />
+
+    <script type="text/javascript">
+    $('#submit').click(function() {
+        if ($('#name').val() == "") {
+            $('<div class="alert alert-danger" role="alert"><strong>请填写您的姓名！</strong></div>').insertAfter("form").fadeOut(3000);
+            return false;
+        }
+        if ($('#phone').val() == "") {
+            $('<div class="alert alert-danger" role="alert"><strong>请填写您的手机或电话号码！</strong></div>').insertAfter("form").fadeOut(3000);
+            return false;
+        }
+        if ($('#school').val() == "") {
+            $('<div class="alert alert-danger" role="alert"><strong>请填写您所在学校！</strong></div>').insertAfter("form").fadeOut(3000);
+            return false;
+        }
+        if ($('#addr').val() == "") {
+            $('<div class="alert alert-danger" role="alert"><strong>请填写您的详细地址！</strong></div>').insertAfter("form").fadeOut(3000);
+            return false;
+        }
+    });
+    <present name="useWXJSK">
+    wx.ready(function () {
+        wx.closeWindow();
+    });
+    </present>
+    </script>
